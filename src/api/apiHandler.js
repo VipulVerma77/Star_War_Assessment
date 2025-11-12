@@ -1,8 +1,14 @@
 import myAxios from "./myAxios";
 
  
-export async function getCharacter(page = 1) {
-  const { data } = await myAxios.get(`/people/?page=${page}`);
+export async function getCharacter(page = 1, search = "") {
+  const { data } = await myAxios.get(`/people/`, {
+    params: {
+      page,
+      search: search.trim() || "", 
+    },
+  });
+
   return {
     results: data.results,
     next: data.next,

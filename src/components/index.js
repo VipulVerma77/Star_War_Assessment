@@ -3,11 +3,13 @@ import Error from "./Error.jsx";
 import Loader from "./Loader.jsx";
 import Pagination from "./Pagination.jsx";
 import Layout from "./Layout.jsx";
+import SearchBox from "./SearchBox.jsx";
 
 export {
     Card,
     Error,
     Loader,
     Pagination,
-    Layout
+    Layout,
+    SearchBox
 }

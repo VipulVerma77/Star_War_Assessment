@@ -1,26 +1,31 @@
 import { LogIn, LogOut } from "lucide-react";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import Login from "../auth/Login";
 
-export default function AuthButton({ isLoggedIn, onLogin, onLogout, className = "" }) {
-  const handleClick = () => {
-    isLoggedIn ? onLogout() : onLogin();
-  };
+export default function AuthButton() {
+  const { user, logout } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
 
   return (
-    <button
-      onClick={handleClick}
-      className={`flex items-center justify-center gap-2 px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-all ${className}`}
-    >
-      {isLoggedIn ? (
-        <>
-          <LogOut size={16} />
-          <span>Logout</span>
-        </>
+    <>
+      {user ? (
+        <button
+          onClick={logout}
+          className="flex items-center gap-2 bg-purple-700 px-4 py-2 rounded-lg hover:bg-purple-600 transition"
+        >
+          <LogOut size={18} /> Logout
+        </button>
       ) : (
-        <>
-          <LogIn size={16} />
-          <span>Login</span>
-        </>
+        <button
+          onClick={() => setShowLogin(true)}
+          className="flex items-center gap-2 bg-purple-600 px-4 py-2 rounded-lg hover:bg-purple-500 transition"
+        >
+          <LogIn size={18} /> Login
+        </button>
       )}
-    </button>
+
+      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+    </>
   );
 }
