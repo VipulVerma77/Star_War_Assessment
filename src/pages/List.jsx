@@ -1,35 +1,38 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCharacter } from "../api/apiHandler";
-import { Card, Error, Loader, Pagination } from "../components"; 
+import { Card, Error, Loader, Pagination } from "../components";
+import Modal from "../components/Modal";
 
 export default function List() {
-  const [characters, setCharacters] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [hasPrev, setHasPrev] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
+  const [selectedData, setSelectedData] = useState(null)
 
-  const fetchCharacters = async () => {
+ const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const data = await getCharacter(page);
-      setCharacters(data.results);
+      setData(data.results);
       setHasNext(!!data.next);
       setHasPrev(!!data.previous);
       setTotalCount(data.count || 0);
     } catch (err) {
+      setData([]);
       setError("Transmission lost. Unable to reach the galaxy");
     } finally {
       setLoading(false);
     }
-  };
+  }, [page]); 
 
   useEffect(() => {
-    fetchCharacters();
-  }, [page]);
+    fetchData();
+  }, [fetchData]);
 
   const itemsPerPage = 10;
   const startItem = (page - 1) * itemsPerPage + 1;
@@ -38,7 +41,7 @@ export default function List() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+
         <div className="text-center mb-12">
           <div className="relative inline-block">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-pulse">
@@ -51,7 +54,7 @@ export default function List() {
           </p>
         </div>
 
-        {/* Loader */}
+
         {loading && (
           <div className="flex flex-col justify-center items-center min-h-[400px] space-y-6">
             <Loader />
@@ -70,22 +73,25 @@ export default function List() {
             />
           </div>
         )}
-
-        {/* Characters */}
         {!loading && !error && (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 animate-fade-in">
-              {characters.map((char, index) => (
-                <Card
+              {data.map((char, index) => (
+                <div
                   key={char.name}
-                  character={char}
-                  className="transform hover:scale-105 transition-transform duration-300"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                />
+                  onClick={() => setSelectedData(char)}
+                  className="cursor-pointer"
+                >
+                  <Card
+                    character={char}
+                    className="transform hover:scale-105 transition-transform duration-300"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  />
+                </div>
               ))}
             </div>
 
-            {/* ✅ Pagination Component */}
+
             <Pagination
               page={page}
               hasPrev={hasPrev}
@@ -99,14 +105,14 @@ export default function List() {
             />
           </>
         )}
-
-        {/* Footer */}
-        <div className="text-center mt-16 pt-8 border-t border-slate-700/50">
-          <p className="text-slate-400 text-sm">
-            Data provided by the Star Wars API • May the Force be with you
-          </p>
-        </div>
       </div>
+      {selectedData && (
+        <Modal
+          character={selectedData}
+          onClose={() => setSelectedData(null)} 
+        />
+      )}
+
     </div>
   );
 }

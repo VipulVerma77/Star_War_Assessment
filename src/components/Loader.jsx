@@ -6,7 +6,7 @@ export default function Loader() {
         <div className="absolute inset-0 rounded-full blur-sm border-4 border-purple-500/40 animate-pulse"></div>
       </div>
       <p className="text-purple-300 font-medium animate-glow">
-        <p className="text-slate-300 text-lg animate-pulse">Scanning the galaxy for characters...</p>
+        <span className="text-slate-300 text-lg animate-pulse">Scanning the galaxy for characters...</span>
       </p>
     </div>
   );

@@ -1,11 +1,14 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-/* ==============================
-   🌌 GLOBAL FUTURISTIC STYLES
-   ============================== */
+
+
+body{
+font-family: 'Rubik', sans-serif;
+}
 @layer base {
   html, body {
-    @apply bg-[#0b0b12] text-gray-100 font-sans min-h-screen;
+    @apply bg-[#0b0b12] text-gray-100  min-h-screen;
     background: radial-gradient(circle at 20% 20%, #141420, #050509);
     scroll-behavior: smooth;
   }
@@ -66,11 +69,58 @@
   .section {
     @apply py-10 px-4 md:px-10 max-w-6xl mx-auto;
   }
+  .medium{
+    @apply text-slate-200 font-medium
+  }
 }
 
-/* ==============================
-   ✨ ANIMATIONS
-   ============================== */
+  .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(30, 41, 59, 0.3);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(192, 132, 252, 0.4);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(192, 132, 252, 0.6);
+        }
+
+
+.modal-container {
+  @apply bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900rounded-2xl shadow-2xl border border-purple-500/40  p-6 text-slate-100 transition-all duration-300;
+}
+
+.info-box {
+  @apply bg-slate-800/50 rounded-lg p-2 sm:p-3 border border-slate-700/50 hover:border-purple-500/30 transition-colors;
+}
+
+
+.gradient-box {
+  @apply bg-gradient-to-r from-slate-800/60 to-purple-900/20 rounded-xl p-3 sm:p-4 border border-purple-500/30;
+}
+
+
+.info-label {
+  @apply flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-slate-300 mb-1;
+}
+
+
+.gradient-title {
+  @apply text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent;
+}
+
+
+.modal-overlay {
+  @apply fixed inset-0 bg-black/80 flex items-center justify-center z-50 backdrop-blur-sm transition-opacity duration-300;
+}
+
+
+
+
 @layer utilities {
   .animate-fade-in {
     animation: fadeIn 0.5s ease-in forwards;
