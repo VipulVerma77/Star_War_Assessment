@@ -1,3 +1,5 @@
+https://star-war-assessment.vercel.app/
+
 email = admin@gmail.com and password = "Admin@123"
 
 Search features also there
